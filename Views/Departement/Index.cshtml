@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MVC.Models.Departement>
+﻿@model IEnumerable<MVC.Models.DepartementViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -23,6 +23,9 @@
                     Division ID
                     @*@Html.DisplayNameFor(model => model.DivisionId)*@
                 </th>
+                <th>
+                    Division Name
+                </th>
                 <th>Option</th>
             </tr>
         </thead>
@@ -32,16 +35,20 @@
                 <tr>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.DisplayFor(modelItem => item.departementVm.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DivisionId)
+                        @Html.DisplayFor(modelItem => item.departementVm.DivisionId)
                     </td>
 
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        @Html.DisplayFor(modelItem => item.divisionVm.Name)
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.departementVm.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.departementVm.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.departementVm.Id">Delete</a>
                     </td>
                 </tr>
             }
