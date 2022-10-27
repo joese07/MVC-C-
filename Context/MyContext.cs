@@ -14,7 +14,13 @@ namespace MVC.Context
         public DbSet<Division> Divisions { get; set; }
 
         public DbSet<Departement> Departements { get; set; }
-       
+
+        public DbSet<Employee> Employees { get; set; }
+
+        public DbSet<Role> Roles { get; set; }
+
+        public DbSet<User> Users { get; set; }
+        
         }
     }
 

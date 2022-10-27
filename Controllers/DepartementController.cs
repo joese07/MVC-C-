@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MVC.Context;
 using MVC.Models;
 
@@ -51,8 +52,21 @@ namespace MVC.Controllers
 
         public IActionResult Create()
         {
-  
-            return View();
+
+            var vm = new MyViewModel();
+            vm.Divisions = myContext.Divisions.Select(a => new SelectListItem()
+            {
+                Value = a.Id.ToString(),
+                Text = a.Name
+            }).ToList();
+
+            //vm.Divisions = new List<SelectListItem>
+            //{
+            //    new SelectListItem { Text = "Satu", Value= "1" },
+            //    new SelectListItem { Text = "Dua", Value = "2"}
+            //};
+
+            return View(vm);
         }
 
         [HttpPost]
