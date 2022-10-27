@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using MVC.Context;
 using MVC.Models;
 
@@ -23,14 +24,16 @@ namespace MVC.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            List<Departement> departements = myContext.Departements.ToList();
-            List<Division> divisions = myContext.Divisions.ToList();
+            //List<Departement> departements = myContext.Departements.ToList();
+            //List<Division> divisions = myContext.Divisions.ToList();
 
 
-            var data = from d in departements
-                       join e in divisions on d.DivisionId equals e.Id into st2
-                       from e in st2.DefaultIfEmpty()
-                       select new DepartementViewModel { departementVm = d, divisionVm = e };
+            //var data = from d in departements
+            //           join e in divisions on d.DivisionId equals e.Id into st2
+            //           from e in st2.DefaultIfEmpty()
+            //           select new DepartementViewModel { departementVm = d, divisionVm = e };
+
+            var data = myContext.Departements.Include(d => d.Divisions).ToList();
 
             return View(data);
         }
@@ -44,6 +47,8 @@ namespace MVC.Controllers
             //           join e in divisions on d.DivisionId equals e.Id into st2
             //           from e in st2.DefaultIfEmpty()
             //           select new DepartementViewModel { departementVm = d, divisionVm = e };
+
+            //var data = myContext.Departements.Include(d => d.Divisions).Find(id);
 
             var data = myContext.Departements.Find(id);
 

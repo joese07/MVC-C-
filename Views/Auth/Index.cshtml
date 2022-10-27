@@ -1,0 +1,20 @@
+﻿@model MVC.Models.Employee
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+           <p><string>FullName</string> : @Html.DisplayFor(model => model.FullName)</p>
+           <p><string>Email</string> :  @Html.DisplayFor(model => model.Email)</p>
+            <p><string>Role</string> : Admin</p>
+        </div>  
+    </div>
+</div>
+
+
