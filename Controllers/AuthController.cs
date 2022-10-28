@@ -36,22 +36,24 @@ namespace MVC.Controllers
             return View();
         }
 
+
+       //https://stackoverflow.com/questions/72848070/login-page-with-asp-net-core-mvc
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(Employee employee)
+        public IActionResult Login(LoginVM loginVM)
         {
-         if (ModelState.IsValid)
+       
+            var Data = from m in myContext.Employees select m;
+            var DataP = from p in myContext.Users select p;
+            Data = Data.Where(s => s.Email.Contains(loginVM.employee.Email));
+            if(Data.Count() != 0)
             {
-                var Data = from m in myContext.Employees select m;
-                Data = Data.Where(s => s.Email.Contains(employee.Email));
-                if (Data.Count() != 0)
+                if(DataP.First().Password == loginVM.user.Password)
                 {
-                    if (Data.First().Email == employee.Email)
-                    {
-                        return RedirectToAction("Index");
-                    }
+                    return RedirectToAction("Index", "Auth");
                 }
             }
+               
            
             return RedirectToAction("Fail");
         }
