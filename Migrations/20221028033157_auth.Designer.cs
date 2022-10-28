@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVC.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20221027043746_auth")]
+    [Migration("20221028033157_auth")]
     partial class auth
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,10 +107,7 @@ namespace MVC.Migrations
             modelBuilder.Entity("MVC.Models.User", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -139,11 +136,19 @@ namespace MVC.Migrations
 
             modelBuilder.Entity("MVC.Models.User", b =>
                 {
+                    b.HasOne("MVC.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MVC.Models.Role", "Roles")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Employee");
 
                     b.Navigation("Roles");
                 });

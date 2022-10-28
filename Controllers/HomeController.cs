@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVC.Context;
 using MVC.Models;
+using MVC.ViewModels;
 
 namespace MVC.Controllers;
 
@@ -17,10 +19,10 @@ public class HomeController : Controller
         this.myContext = myContext;
     }
 
-    public IActionResult Index(int id)
+    public IActionResult Index(ResponseLogin responseLogin)
     {
-        var data = myContext.Employees.Find(1);
-        return View(data);
+      
+        return View(responseLogin);
     }
 
     public IActionResult Privacy()

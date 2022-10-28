@@ -1,4 +1,4 @@
-﻿@model MVC.Models.Employee
+﻿@model MVC.ViewModels.ResponseLogin
 
 
 @{
@@ -11,9 +11,10 @@
             <div class="card-body">
                 <p><string>FullName</string> : @Html.DisplayFor(model => model.FullName)</p>
                 <p><string>Email</string> :  @Html.DisplayFor(model => model.Email)</p>
-                <p><string>Role</string> : Admin</p>
+                <p><string>Role</string> : @Html.DisplayFor(model => model.Role)</p>
             </div>
         </div>
+        <a asp-action="ChangePassword" asp-controller="Auth">Change Password</a>
     </div>
    </div>
 
