@@ -126,40 +126,57 @@ namespace MVC.Controllers
 
             if (data != null)
             {
-                Employee employee = new Employee()
+                //Employee employee = new Employee()
+                //{
+
+                //    FullName = fullName,
+                //    Email = email,
+                //    BirthDate = birthDate
+                //};
+
+                User user = new User()
                 {
-                    FullName = fullName,
-                    Email = email,
-                    BirthDate = birthDate
+                    Id = data.Id
                 };
+               
 
 
-                return RedirectToAction("NewPassword", "Auth");
+                return RedirectToAction("NewPassword", user);
             }
 
 
             return View();
         }
-        public IActionResult NewPassword()
+        public IActionResult NewPassword(int id)
         {
-            return View();
+            var data = myContext.Users.Find(id);
+            return View(data);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult NewPassword(string password, Employee employee, User user)
+        public IActionResult NewPassword(int id, User user, Employee employee)
         {
-            var data = myContext.Users.Find(employee.Email);
-            if(data != null)
+            try
             {
-                data.Password = user.Password;
-                myContext.Entry(data).State = EntityState.Modified;
-                var result = myContext.SaveChanges();
-                if (result > 0)
-                    return RedirectToAction("Index", "Home");
-            }
+                var data = myContext.Users.Find(id);
 
-            return View();
+                if (data != null)
+                {
+                    data.Password = user.Password;
+                    myContext.Entry(data).State = EntityState.Modified;
+                    var result = myContext.SaveChanges();
+                    if (result > 0)
+                        return RedirectToAction("Login");
+                }
+
+                return View();
+
+            } catch (Exception Ex)
+            {
+                return View("Error" + Ex);
+            }
+           
         }
 
         public IActionResult ChangePassword()
