@@ -126,20 +126,11 @@ namespace MVC.Controllers
 
             if (data != null)
             {
-                //Employee employee = new Employee()
-                //{
-
-                //    FullName = fullName,
-                //    Email = email,
-                //    BirthDate = birthDate
-                //};
 
                 User user = new User()
                 {
                     Id = data.Id
                 };
-               
-
 
                 return RedirectToAction("NewPassword", user);
             }
@@ -155,7 +146,7 @@ namespace MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult NewPassword(int id, User user, Employee employee)
+        public IActionResult NewPassword(int id, User user)
         {
             try
             {
