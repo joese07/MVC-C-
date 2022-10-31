@@ -69,7 +69,7 @@ namespace MVC.Controllers
 
             }
 
-
+            ViewBag.Message = string.Format("Email atau Password salah");
             return View();
 
         }
@@ -80,35 +80,43 @@ namespace MVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(string fullName, string email, string birthDate, string password)
+        public IActionResult Register(string fullName, string email, string birthDate, string password, string retypePassword)
         {
-            Employee employee = new Employee()
+            if(retypePassword == password)
             {
-                FullName = fullName,
-                Email = email,
-                BirthDate = birthDate
-            };
-
-
-            myContext.Employees.Add(employee);
-            var result = myContext.SaveChanges();
-            if(result > 0)
-            {
-                var id = myContext.Employees.SingleOrDefault(x => x.Email.Equals(email)).Id;
-                User user = new User()
+                Employee employee = new Employee()
                 {
-                    Id = id,
-                    Password = password,
-                    RoleId = 1,
+                    FullName = fullName,
+                    Email = email,
+                    BirthDate = birthDate
                 };
 
-                myContext.Users.Add(user);
-                var resultUser = myContext.SaveChanges();
-                if (resultUser > 0)
-                    return RedirectToAction("Login", "Auth");
-                
+
+                myContext.Employees.Add(employee);
+                var result = myContext.SaveChanges();
+                if (result > 0)
+                {
+                    var id = myContext.Employees.SingleOrDefault(x => x.Email.Equals(email)).Id;
+                    User user = new User()
+                    {
+                        Id = id,
+                        Password = password,
+                        RoleId = 1,
+                    };
+
+                    myContext.Users.Add(user);
+                    var resultUser = myContext.SaveChanges();
+                    if (resultUser > 0)
+                        return RedirectToAction("Login", "Auth");
+
+                }
+                ViewBag.Message = string.Format("Something wrong..");
+                return View();
+
             }
+            ViewBag.Message = string.Format("Retype Password tidak sama");
             return View();
+           
         }
 
         public IActionResult ResetPassword()
@@ -146,26 +154,34 @@ namespace MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult NewPassword(int id, User user)
+        public IActionResult NewPassword(int id, User user, string retypePassword)
         {
             try
             {
                 var data = myContext.Users.Find(id);
 
+              
+
                 if (data != null)
                 {
-                    data.Password = user.Password;
-                    myContext.Entry(data).State = EntityState.Modified;
-                    var result = myContext.SaveChanges();
-                    if (result > 0)
-                        return RedirectToAction("Login");
+                    if(user.Password == retypePassword)
+                    {
+                        data.Password = user.Password;
+                        myContext.Entry(data).State = EntityState.Modified;
+                        var result = myContext.SaveChanges();
+                        if (result > 0)
+                            return RedirectToAction("Login");
+                    }
+                    ViewBag.Message = string.Format("Retype Password tidak sama");
+                    return View();
+
                 }
 
                 return View();
 
             } catch (Exception Ex)
             {
-                return View("Error" + Ex);
+                return View(Ex);
             }
            
         }
@@ -177,22 +193,30 @@ namespace MVC.Controllers
 
 
         [HttpPost]
-        public IActionResult ChangePassword( string OldPassword, User user)
+        public IActionResult ChangePassword( string OldPassword, string retypePassword, User user)
         {
             var data = myContext.Users.SingleOrDefault(x => x.Password.Equals(OldPassword));
 
             if (data != null)
             {
-                if( data.Password == OldPassword)
+             if(user.Password == retypePassword)
                 {
-                    data.Password = user.Password;
-                    myContext.Entry(data).State = EntityState.Modified;
-                    var result = myContext.SaveChanges();
-                    if(result > 0)
-                        return RedirectToAction("Login");
+                    if (data.Password == OldPassword)
+                    {
+                        data.Password = user.Password;
+                        myContext.Entry(data).State = EntityState.Modified;
+                        var result = myContext.SaveChanges();
+                        if (result > 0)
+                            return RedirectToAction("Login");
+                    }
+                  
                 }
+                ViewBag.Message = string.Format("Retype Password tidak sama");
+                return View();
+
             }
 
+            ViewBag.Message = string.Format("Password lama tidak sesuai");
             return View();
         }
     }
