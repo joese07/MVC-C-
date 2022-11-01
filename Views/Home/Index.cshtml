@@ -32,7 +32,7 @@
                     }
                     @if (HttpContextAccessor.HttpContext.Session.GetString("Email") == null)
                     {
-                        <div class="">
+                        <div class="mx-auto">
                             <form method="post" asp-controller="Home">
                                 <button type="submit" formaction="@Url.Action("SignOut")">
                                     Login
@@ -41,7 +41,7 @@
                         </div>         
 
                     }
-
+                    
 
                 </div>
 
