@@ -4,33 +4,45 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
+
+
+
 
 <div class="container">
-    <div class="card">
-        <div class="card-body">
-            <form asp-action="Login" asp-controller="Auth">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group mb-3">
-                    <label class="control-label">Email</label>
-                    <input name="email" class="form-control" type="email" placeholder="Email" />
-                    <spanclass ="text-danger"></span>
-                </div>
-                <div class="form-group mb-3">
-                    <label class="control-label">Password</label>
-                    <input name="password" class="form-control" type="password" placeholder="Password" />
-                    <span class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <a asp-action="Register">Register</a> | <a asp-action="ResetPassword">Lupa Password</a>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Login" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
+    <div class="text-center">
+    <h1>Login</h1>
     </div>
+
+    <div class="d-flex justify-content-center">
+  
+            <div class="card" style="width:40rem;">
+                <div class="card-body">
+                    <form asp-action="Login" asp-controller="Auth">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group mb-3">
+                            <label class="control-label">Email</label>
+                            <input name="email" class="form-control" type="email" placeholder="Email" />
+                            <spanclass ="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="control-label">Password</label>
+                            <input name="password" class="form-control" type="password" placeholder="Password" />
+                            <span class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <a asp-action="Register">Register</a> | <a asp-action="ResetPassword">Forgot Password</a>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Login" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+  
+      
+    </div>
+    
 </div>
 
 

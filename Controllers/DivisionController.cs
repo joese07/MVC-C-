@@ -23,8 +23,18 @@ namespace MVC.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            var data = myContext.Divisions.ToList();
-            return View(data);
+            var role = HttpContext.Session.GetString("Role");
+            if(role == "admin")
+            {
+                var data = myContext.Divisions.ToList();
+                return View(data);
+            }
+            else if(role == null)
+            {
+                return RedirectToAction("UnAuthorized", "ErrorPage");
+            }
+
+            return RedirectToAction("Forbidden", "ErrorPage");
         }
 
         //GET BY ID

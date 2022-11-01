@@ -52,19 +52,21 @@ namespace MVC.Controllers
 
             if(data != null)
             {
-                User user = new User()
-                {
-                    Password = data.Password
-                };
 
-                ResponseLogin responseLogin = new ResponseLogin()
-                {
-                    FullName = data.Employee.FullName,
-                    Email = data.Employee.Email,
-                    Role = data.Roles.Name
-                };
+                HttpContext.Session.SetInt32("Id", data.Id);
+                HttpContext.Session.SetString("Fullname", data.Employee.FullName);
+                HttpContext.Session.SetString("Email", data.Employee.Email);
+                HttpContext.Session.SetString("Role", data.Roles.Name);
 
-                return RedirectToAction("Index", "Home", responseLogin);
+
+                //ResponseLogin responseLogin = new ResponseLogin()
+                //{
+                //    FullName = data.Employee.FullName,
+                //    Email = data.Employee.Email,
+                //    Role = data.Roles.Name
+                //};
+
+                return RedirectToAction("Index", "Home");
 
 
             }
@@ -101,7 +103,7 @@ namespace MVC.Controllers
                     {
                         Id = id,
                         Password = password,
-                        RoleId = 1,
+                        RoleId = 2,
                     };
 
                     myContext.Users.Add(user);

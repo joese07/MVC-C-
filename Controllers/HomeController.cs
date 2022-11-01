@@ -19,10 +19,28 @@ public class HomeController : Controller
         this.myContext = myContext;
     }
 
-    public IActionResult Index(ResponseLogin responseLogin)
+    public IActionResult Index()
     {
+       var fullname =  HttpContext.Session.GetString("Fullname");
+        var email = HttpContext.Session.GetString("Email");
+        var role = HttpContext.Session.GetString("Role");
+        ResponseLogin responseLogin = new ResponseLogin()
+        {
+            FullName = fullname,
+            Email = email,
+            Role = role,
+
+        };
       
         return View(responseLogin);
+    }
+
+    [HttpPost]
+    public IActionResult SignOut()
+    {
+        HttpContext.Session.Clear();
+
+        return RedirectToAction("Login", "Auth");
     }
 
     public IActionResult Privacy()

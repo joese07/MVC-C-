@@ -5,19 +5,24 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+
     <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <p><string>FullName</string> : @Html.DisplayFor(model => model.FullName)</p>
-                <p><string>Email</string> :  @Html.DisplayFor(model => model.Email)</p>
-                <p><string>Role</string> : @Html.DisplayFor(model => model.Role)</p>
+        <div class="d-flex justify-content-center">
+            <div class="card" style="width:30rem;">
+              <div class="card-body">
+
+                <p><strong>FullName</strong> : @Html.DisplayFor(model => model.FullName)</p>
+                <p><strong>Email</strong> :  @Html.DisplayFor(model => model.Email)</p>
+                 <p><strong>Role</strong> : @Html.DisplayFor(model => model.Role)</p>
+
+               <hr />
+
+               <a asp-action="ChangePassword" asp-controller="Auth">Change Password</a>
+              <a asp-action="Login" asp-controller="Auth">Sign Out</a>
+              </div>
             </div>
         </div>
-        <a asp-action="ChangePassword" asp-controller="Auth">Change Password</a>
-        <a asp-action="Login" asp-controller="Auth">Sign Out</a>
-
     </div>
-   </div>
+
 
 
