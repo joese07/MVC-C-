@@ -1,7 +1,9 @@
 ﻿using System;
+using MVC.Base;
+
 namespace MVC.Models
 {
-    public class Division
+    public class Division : BaseModel
     {
         public Division(int Id, string Name)
         {

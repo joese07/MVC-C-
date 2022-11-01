@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVC.Context;
+using MVC.Handlers;
 using MVC.Models;
 using MVC.ViewModels;
 
@@ -48,26 +49,26 @@ namespace MVC.Controllers
             var data = myContext.Users
                 .Include(x => x.Employee)
                 .Include(x => x.Roles)
-                .SingleOrDefault(x => x.Employee.Email.Equals(email) && x.Password.Equals(password));
+                .SingleOrDefault(x => x.Employee.Email.Equals(email));
 
             if(data != null)
             {
+                if(Hashing.ValidatePassword(password, data.Password))
+                {
 
-                HttpContext.Session.SetInt32("Id", data.Id);
-                HttpContext.Session.SetString("Fullname", data.Employee.FullName);
-                HttpContext.Session.SetString("Email", data.Employee.Email);
-                HttpContext.Session.SetString("Role", data.Roles.Name);
+                    HttpContext.Session.SetInt32("Id", data.Id);
+                    HttpContext.Session.SetString("Fullname", data.Employee.FullName);
+                    HttpContext.Session.SetString("Email", data.Employee.Email);
+                    HttpContext.Session.SetString("Role", data.Roles.Name);
 
 
-                //ResponseLogin responseLogin = new ResponseLogin()
-                //{
-                //    FullName = data.Employee.FullName,
-                //    Email = data.Employee.Email,
-                //    Role = data.Roles.Name
-                //};
+                    return RedirectToAction("Index", "Home");
 
-                return RedirectToAction("Index", "Home");
 
+                }
+
+                ViewBag.Message = string.Format("Email atau Password salah");
+                return View();
 
             }
 
@@ -102,7 +103,7 @@ namespace MVC.Controllers
                     User user = new User()
                     {
                         Id = id,
-                        Password = password,
+                        Password = Hashing.HashPassword(password),
                         RoleId = 2,
                     };
 
@@ -168,7 +169,7 @@ namespace MVC.Controllers
                 {
                     if(user.Password == retypePassword)
                     {
-                        data.Password = user.Password;
+                        data.Password = Hashing.HashPassword(user.Password);
                         myContext.Entry(data).State = EntityState.Modified;
                         var result = myContext.SaveChanges();
                         if (result > 0)
@@ -197,28 +198,33 @@ namespace MVC.Controllers
         [HttpPost]
         public IActionResult ChangePassword( string OldPassword, string retypePassword, User user)
         {
-            var data = myContext.Users.SingleOrDefault(x => x.Password.Equals(OldPassword));
+            var email = HttpContext.Session.GetString("Email");
+            var data = myContext.Users.Include(x => x.Employee).SingleOrDefault(x => x.Employee.Email.Equals(email));
 
             if (data != null)
             {
-             if(user.Password == retypePassword)
-                {
-                    if (data.Password == OldPassword)
+                
+                    if (user.Password == retypePassword)
                     {
-                        data.Password = user.Password;
-                        myContext.Entry(data).State = EntityState.Modified;
-                        var result = myContext.SaveChanges();
-                        if (result > 0)
-                            return RedirectToAction("Login");
-                    }
-                  
+                        if (Hashing.ValidatePassword(OldPassword, data.Password))
+                        {
+                            data.Password = Hashing.HashPassword(user.Password);
+                            myContext.Entry(data).State = EntityState.Modified;
+                            var result = myContext.SaveChanges();
+                            if (result > 0)
+                                return RedirectToAction("Login");
+                        }
+                    ViewBag.Message = string.Format("Password lama tidak sesuai");
+                    return View();
+
                 }
+                
+
                 ViewBag.Message = string.Format("Retype Password tidak sama");
                 return View();
-
             }
 
-            ViewBag.Message = string.Format("Password lama tidak sesuai");
+            ViewBag.Message = string.Format("Something Wrong..");
             return View();
         }
     }

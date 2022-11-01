@@ -57,6 +57,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Division division)
         {
+            division.CreatedBy = HttpContext.Session.GetString("Fullname");
+            division.CreateDate = DateTime.Now.ToLocalTime();
             myContext.Divisions.Add(division);
             var result = myContext.SaveChanges();
             if (result > 0)

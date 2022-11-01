@@ -6,17 +6,7 @@ namespace MVC.Base
 
         public string CreatedBy { get; set; }
 
-        public DateTime CreateDate
-        {
-            get
-            {
-                return CreateDate;
-            }
-            set
-            {
-                CreateDate = DateTime.Now.ToLocalTime();
-            }
-        }
+        public DateTime CreateDate { get; set; }
        
     }
 }

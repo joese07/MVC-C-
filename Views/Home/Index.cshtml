@@ -6,23 +6,32 @@
 }
 
 
-    <div class="container">
-        <div class="d-flex justify-content-center">
-            <div class="card" style="width:30rem;">
-              <div class="card-body">
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="card" style="width:30rem;">
+            <div class="card-header text-center"><h3>Data User</h3></div>
+            <div class="card-body">
 
                 <p><strong>FullName</strong> : @Html.DisplayFor(model => model.FullName)</p>
                 <p><strong>Email</strong> :  @Html.DisplayFor(model => model.Email)</p>
-                 <p><strong>Role</strong> : @Html.DisplayFor(model => model.Role)</p>
+                <p><strong>Role</strong> : @Html.DisplayFor(model => model.Role)</p>
 
-               <hr />
+                <hr />
+                <div class="d-flex justify-content-between">
 
-               <a asp-action="ChangePassword" asp-controller="Auth">Change Password</a>
-              <a asp-action="Login" asp-controller="Auth">Sign Out</a>
-              </div>
+                    <a asp-action="ChangePassword" asp-controller="Auth">Change Password</a>
+                    <form method="post" asp-controller="Home">
+                        <button type="submit" formaction="@Url.Action("SignOut")">
+                            Sign out
+                        </button>
+                    </form>
+
+                </div>
+
             </div>
         </div>
     </div>
+</div>
 
 
 

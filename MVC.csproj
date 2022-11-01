@@ -17,6 +17,9 @@
     <None Remove="ViewModels\" />
     <None Remove="Views\ErrorPage\" />
     <None Remove="Base\" />
+    <None Remove="Microsoft.AspNetCore.Http" />
+    <None Remove="BCrypt.Net-Core" />
+    <None Remove="Handlers\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
@@ -29,6 +32,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Context\" />
@@ -37,5 +42,6 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Views\ErrorPage\" />
     <Folder Include="Base\" />
+    <Folder Include="Handlers\" />
   </ItemGroup>
 </Project>

@@ -16,6 +16,8 @@
                 Nama
                 @*@Html.DisplayNameFor(model => model.Name)*@
             </th>
+            <th>Create By</th>
+            <th>Create Date</th>
             <th>Option</th>
         </tr>
     </thead>
@@ -25,6 +27,12 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

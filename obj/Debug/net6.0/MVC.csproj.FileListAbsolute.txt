@@ -60,3 +60,4 @@
 /Users/yohanesjoese/Projects/MVC/MVC/bin/Debug/net6.0/runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll
 /Users/yohanesjoese/Projects/MVC/MVC/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.0/System.Windows.Extensions.dll
 /Users/yohanesjoese/Projects/MVC/MVC/obj/Debug/net6.0/MVC.csproj.CopyComplete
+/Users/yohanesjoese/Projects/MVC/MVC/bin/Debug/net6.0/BCrypt.Net-Core.dll
