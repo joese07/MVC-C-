@@ -85,41 +85,48 @@ namespace MVC.Controllers
         [HttpPost]
         public IActionResult Register(string fullName, string email, string birthDate, string password, string retypePassword)
         {
-            if(retypePassword == password)
+            var dataEmail = myContext.Users.Include(x => x.Employee).SingleOrDefault(x => x.Employee.Email.Equals(email));
+            if(dataEmail == null)
             {
-                Employee employee = new Employee()
+                if (retypePassword == password)
                 {
-                    FullName = fullName,
-                    Email = email,
-                    BirthDate = birthDate
-                };
-
-
-                myContext.Employees.Add(employee);
-                var result = myContext.SaveChanges();
-                if (result > 0)
-                {
-                    var id = myContext.Employees.SingleOrDefault(x => x.Email.Equals(email)).Id;
-                    User user = new User()
+                    Employee employee = new Employee()
                     {
-                        Id = id,
-                        Password = Hashing.HashPassword(password),
-                        RoleId = 2,
+                        FullName = fullName,
+                        Email = email,
+                        BirthDate = birthDate
                     };
 
-                    myContext.Users.Add(user);
-                    var resultUser = myContext.SaveChanges();
-                    if (resultUser > 0)
-                        return RedirectToAction("Login", "Auth");
+
+                    myContext.Employees.Add(employee);
+                    var result = myContext.SaveChanges();
+                    if (result > 0)
+                    {
+                        var id = myContext.Employees.SingleOrDefault(x => x.Email.Equals(email)).Id;
+                        User user = new User()
+                        {
+                            Id = id,
+                            Password = Hashing.HashPassword(password),
+                            RoleId = 2,
+                        };
+
+                        myContext.Users.Add(user);
+                        var resultUser = myContext.SaveChanges();
+                        if (resultUser > 0)
+                            return RedirectToAction("Login", "Auth");
+
+                    }
+                    ViewBag.Message = string.Format("Something wrong..");
+                    return View();
 
                 }
-                ViewBag.Message = string.Format("Something wrong..");
+                ViewBag.Message = string.Format("Retype Password tidak sama");
                 return View();
-
             }
-            ViewBag.Message = string.Format("Retype Password tidak sama");
+            ViewBag.Message = string.Format("Email sudah terdaftar");
             return View();
-           
+
+
         }
 
         public IActionResult ResetPassword()

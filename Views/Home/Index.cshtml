@@ -1,5 +1,6 @@
 ﻿@model MVC.ViewModels.ResponseLogin
-
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 
 @{
     ViewData["Title"] = "Home Page";
@@ -19,12 +20,28 @@
                 <hr />
                 <div class="d-flex justify-content-between">
 
-                    <a asp-action="ChangePassword" asp-controller="Auth">Change Password</a>
-                    <form method="post" asp-controller="Home">
-                        <button type="submit" formaction="@Url.Action("SignOut")">
-                            Sign out
-                        </button>
-                    </form>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("Email") != null)
+                    {
+                        <a asp-action="ChangePassword" asp-controller="Auth">Change Password</a>
+                        <form method="post" asp-controller="Home">
+                            <button type="submit" formaction="@Url.Action("SignOut")">
+                                Sign out
+                            </button>
+                        </form>
+
+                    }
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("Email") == null)
+                    {
+                        <div class="">
+                            <form method="post" asp-controller="Home">
+                                <button type="submit" formaction="@Url.Action("SignOut")">
+                                    Login
+                                </button>
+                            </form>
+                        </div>         
+
+                    }
+
 
                 </div>
 

@@ -9,6 +9,7 @@ builder.Services.AddDbContext<MyContext>(option =>
                 option.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
 
 // Add services to the container.
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDistributedMemoryCache();
@@ -18,6 +19,8 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromSeconds(15);
 
 });
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 
